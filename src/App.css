@@ -1,38 +1,40 @@
-.App {
-  text-align: center;
+@import 'https://pixelui.netlify.app/styles/styles.css';
+
+:root {
+    --max-width: 1000px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.page-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.route-btn-group > button {
+    margin-right: 1rem;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.cards-display {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: stretch;
 }
 
-.App-link {
-  color: #61dafb;
+.cards-display > div {
+    margin: 1rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.out-of-stock {
+    position: absolute;
+    background-color: #fff;
+    opacity: 0.5;
+    font-size: 2rem;
+    width: 100%;
+    height: 50%;
+    text-align: center;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
