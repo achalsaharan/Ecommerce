@@ -77,7 +77,10 @@ function ProductCard({ product, dispatch, dispatchWrapper }) {
 				<button
 					className="btn btn-secondary"
 					onClick={() =>
-						dispatch({ type: 'ADD_TO_WISHLIST', payload: product })
+						dispatchWrapper({
+							type: 'ADD_TO_WISHLIST',
+							payload: product,
+						})
 					}
 				>
 					Add To Wishlist

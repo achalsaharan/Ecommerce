@@ -1,3 +1,5 @@
+import { isPresentInArray } from './arrayUtils';
+
 export function cartReducer(state, action) {
 	switch (action.type) {
 		case 'SET_PRODUCTS':
@@ -6,7 +8,23 @@ export function cartReducer(state, action) {
 				products: action.payload,
 			};
 
+		case 'SET_WISHLIST':
+			return {
+				...state,
+				wishListItems: action.payload,
+			};
+
+		case 'SET_CART':
+			return {
+				...state,
+				cartItems: action.payload,
+			};
+
 		case 'ADD_TO_CART':
+			if (isPresentInArray(state.cartItems, action.payload)) {
+				alert('already present in cart but missed by dispatch wrapper');
+				return state;
+			}
 			return {
 				...state,
 				cartItems: [
@@ -16,12 +34,16 @@ export function cartReducer(state, action) {
 			};
 
 		case 'ADD_TO_WISHLIST':
-			//removing the quantity key from the payload
-			const objToAdd = { ...action.payload };
-			delete objToAdd.quantity;
+			if (isPresentInArray(state.wishListItems, action.payload)) {
+				alert(
+					'already present in wishlist but missed by dispatch wrapper'
+				);
+				return state;
+			}
+
 			return {
 				...state,
-				wishListItems: [...state.wishListItems, objToAdd],
+				wishListItems: [...state.wishListItems, action.payload],
 			};
 
 		default:

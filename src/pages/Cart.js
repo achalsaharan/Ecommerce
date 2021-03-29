@@ -4,6 +4,7 @@ export function Cart() {
 	const {
 		state: { cartItems },
 		dispatch,
+		dispatchWrapper,
 	} = useCart();
 
 	return (
@@ -11,14 +12,19 @@ export function Cart() {
 			<h3>Cart</h3>
 			<div className="cards-display">
 				{cartItems.map((item) => (
-					<ItemCard key={item.id} item={item} dispatch={dispatch} />
+					<ItemCard
+						key={item.id}
+						item={item}
+						dispatch={dispatch}
+						dispatchWrapper={dispatchWrapper}
+					/>
 				))}
 			</div>
 		</div>
 	);
 }
 
-function ItemCard({ item, dispatch }) {
+function ItemCard({ item, dispatch, dispatchWrapper }) {
 	return (
 		<div className="card shadow-box">
 			{/* to display out of stock content */}
@@ -65,7 +71,10 @@ function ItemCard({ item, dispatch }) {
 				<button
 					className="btn btn-secondary"
 					onClick={() =>
-						dispatch({ type: 'ADD_TO_WISHLIST', payload: item })
+						dispatchWrapper({
+							type: 'ADD_TO_WISHLIST',
+							payload: item,
+						})
 					}
 				>
 					ADD To Wishlist
