@@ -42,6 +42,7 @@
 .quantity-control {
 	border: 1px solid var(--primary);
 	align-self: baseline;
+	margin-left: 1rem;
 }
 
 .quantity-control > button {

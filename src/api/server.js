@@ -17,7 +17,7 @@ export function setupMockServer() {
 
 		routes() {
 			this.namespace = 'api';
-			this.timing = 1000;
+			this.timing = 200;
 			this.resource('products');
 			this.resource('cartItems');
 			this.resource('wishListItems');
@@ -26,7 +26,7 @@ export function setupMockServer() {
 		seeds(server) {
 			[...Array(10)].forEach((_) => {
 				server.create('product', {
-					id: faker.datatype.uuid(),
+					productId: faker.datatype.uuid(),
 					name: faker.commerce.productName(),
 					image: faker.random.image(),
 					price: faker.commerce.price(),
@@ -60,7 +60,7 @@ export function setupMockServer() {
 
 			[...Array(2)].forEach((_) => {
 				server.create('wishListItem', {
-					id: faker.datatype.uuid(),
+					productId: faker.datatype.uuid(),
 					name: faker.commerce.productName(),
 					image: faker.random.image(),
 					price: faker.commerce.price(),
@@ -94,7 +94,7 @@ export function setupMockServer() {
 
 			[...Array(2)].forEach((_) => {
 				server.create('cartItem', {
-					id: faker.datatype.uuid(),
+					productId: faker.datatype.uuid(),
 					name: faker.commerce.productName(),
 					image: faker.random.image(),
 					price: faker.commerce.price(),
@@ -102,6 +102,7 @@ export function setupMockServer() {
 					brand: faker.lorem.word(),
 					inStock: faker.datatype.boolean(),
 					fastDelivery: faker.datatype.boolean(),
+					quantity: 1,
 					ratings: faker.random.arrayElement([1, 2, 3, 4, 5]),
 					offer: faker.random.arrayElement([
 						'Save 50',

@@ -55,11 +55,29 @@ function ItemCard({ item, dispatch, dispatchWrapper }) {
 					</span>
 					<p></p>
 				</div>
-				<div className="quantity-control">
-					<button>+</button>
-					<span>{item.quantity}</span>
-					<button>-</button>
-				</div>
+			</div>
+			<div className="quantity-control">
+				<button
+					onClick={() =>
+						dispatchWrapper({
+							type: 'INCREASE_CART_ITEM_QUANTITY',
+							payload: item,
+						})
+					}
+				>
+					+
+				</button>
+				<span>{item.quantity}</span>
+				<button
+					onClick={() =>
+						dispatchWrapper({
+							type: 'DECREASE_CART_ITEM_QUANTITY',
+							payload: item,
+						})
+					}
+				>
+					-
+				</button>
 			</div>
 			<div
 				style={{
@@ -79,7 +97,17 @@ function ItemCard({ item, dispatch, dispatchWrapper }) {
 				>
 					ADD To Wishlist
 				</button>
-				<button className="btn btn-secondary">Remove</button>
+				<button
+					className="btn btn-secondary"
+					onClick={() =>
+						dispatchWrapper({
+							type: 'REMOVE_FROM_CART',
+							payload: item,
+						})
+					}
+				>
+					Remove
+				</button>
 			</div>
 		</div>
 	);

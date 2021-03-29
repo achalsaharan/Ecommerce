@@ -46,6 +46,44 @@ export function cartReducer(state, action) {
 				wishListItems: [...state.wishListItems, action.payload],
 			};
 
+		case 'REMOVE_FROM_WISHLIST':
+			return {
+				...state,
+				wishListItems: state.wishListItems.filter(
+					(item) => item.productId !== action.payload.productId
+				),
+			};
+
+		case 'REMOVE_FROM_CART':
+			return {
+				...state,
+				cartItems: state.cartItems.filter(
+					(item) => item.productId !== action.payload.productId
+				),
+			};
+
+		case 'INCREASE_CART_ITEM_QUANTITY': {
+			return {
+				...state,
+				cartItems: state.cartItems.map((item) =>
+					item.id === action.payload.id
+						? { ...item, quantity: item.quantity + 1 }
+						: item
+				),
+			};
+		}
+
+		case 'DECREASE_CART_ITEM_QUANTITY': {
+			return {
+				...state,
+				cartItems: state.cartItems.map((item) =>
+					item.id === action.payload.id
+						? { ...item, quantity: item.quantity - 1 }
+						: item
+				),
+			};
+		}
+
 		default:
 			console.log('error in CART REDUCER');
 			break;

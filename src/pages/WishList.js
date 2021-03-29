@@ -71,7 +71,17 @@ function ItemCard({ item, dispatch, dispatchWrapper }) {
 				>
 					ADD TO CART
 				</button>
-				<button className="btn btn-secondary">Remove</button>
+				<button
+					className="btn btn-secondary"
+					onClick={() =>
+						dispatchWrapper({
+							type: 'REMOVE_FROM_WISHLIST',
+							payload: item,
+						})
+					}
+				>
+					Remove
+				</button>
 			</div>
 		</div>
 	);
