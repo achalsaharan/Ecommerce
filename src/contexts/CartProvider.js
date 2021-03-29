@@ -1,32 +1,29 @@
-import { createContext, useState, useEffect, useContext } from "react";
-import axios from 'axios';
+import { createContext, useEffect, useContext, useReducer } from 'react';
+import { cartReducer } from './cartReducer';
+import { makeDispatchWrapper } from './makeDispatchWrapper';
 
 export const CartContext = createContext();
 
-export function CartProvider({children}){
-    const [products, setProducts] = useState([]);
+export function CartProvider({ children }) {
+	const [state, dispatch] = useReducer(cartReducer, {
+		products: [],
+		cartItems: [],
+		wishListItems: [],
+	});
 
-    useEffect(() => {
-        async function getProducts(){
-            try {
-                const res = await axios.get('/api/products');
-                console.log(res.data.products);
-                setProducts(res.data.products);
-            } catch (err) {
-                console.log('error in getting products', err);
-            }
-        }
+	const dispatchWrapper = makeDispatchWrapper(dispatch);
 
-        getProducts();
-    }, [])
+	useEffect(() => {
+		dispatchWrapper({ type: 'GET_PRODUCTS' });
+	}, []);
 
-    return(
-        <CartContext.Provider value={{products}}>
-            {children}
-        </CartContext.Provider>
-    )
+	return (
+		<CartContext.Provider value={{ state, dispatch, dispatchWrapper }}>
+			{children}
+		</CartContext.Provider>
+	);
 }
 
-export function useCart(){
-    return useContext(CartContext);
+export function useCart() {
+	return useContext(CartContext);
 }

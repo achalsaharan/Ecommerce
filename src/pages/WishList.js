@@ -1,34 +1,28 @@
 import { useCart } from '../contexts/CartProvider';
 
-export function Products() {
+export function WishList() {
 	const {
-		state: { products },
+		state: { wishListItems },
 		dispatch,
-		dispatchWrapper,
 	} = useCart();
 
 	return (
 		<div>
-			<h3> Products </h3>
+			<h3>Wish List</h3>
 			<div className="cards-display">
-				{products.map((product, idx) => (
-					<ProductCard
-						key={product.id}
-						product={product}
-						dispatch={dispatch}
-						dispatchWrapper={dispatchWrapper}
-					/>
+				{wishListItems.map((item) => (
+					<ItemCard key={item.key} item={item} dispatch={dispatch} />
 				))}
 			</div>
 		</div>
 	);
 }
 
-function ProductCard({ product, dispatch, dispatchWrapper }) {
+function ItemCard({ item, dispatch }) {
 	return (
 		<div className="card shadow-box">
 			{/* to display out of stock content */}
-			{product.inStock ? (
+			{item.inStock ? (
 				<div className="out-of-stock">
 					<span>OUT OF STOCK</span>
 				</div>
@@ -37,16 +31,16 @@ function ProductCard({ product, dispatch, dispatchWrapper }) {
 			<div className="image-container">
 				<img
 					className="image-responsive"
-					src={product.image}
+					src={item.image}
 					alt={'img not avaliable'}
 				/>
 			</div>
 			<div className="card-text-container">
-				<p className="bold-font-weight product-title">{product.name}</p>
-				<p className="light-font-weight">{product.level} level</p>
-				{product.fastDelivery ? <p>Fast Delivery</p> : null}
+				<p className="bold-font-weight product-title">{item.name}</p>
+				<p className="light-font-weight">{item.level} level</p>
+				{item.fastDelivery ? <p>Fast Delivery</p> : null}
 				<div className="card-price-info">
-					<span className="bold-font-weight">₹{product.price}</span>
+					<span className="bold-font-weight">₹{item.price}</span>
 					<span className="strike-through text-small-size light-font-weight">
 						₹799
 					</span>
@@ -66,22 +60,12 @@ function ProductCard({ product, dispatch, dispatchWrapper }) {
 				<button
 					className="btn btn-primary"
 					onClick={() =>
-						dispatchWrapper({
-							type: 'ADD_TO_CART',
-							payload: product,
-						})
+						dispatch({ type: 'ADD_TO_CART', payload: item })
 					}
 				>
-					Add To Cart
+					ADD TO CART
 				</button>
-				<button
-					className="btn btn-secondary"
-					onClick={() =>
-						dispatch({ type: 'ADD_TO_WISHLIST', payload: product })
-					}
-				>
-					Add To Wishlist
-				</button>
+				<button className="btn btn-secondary">Remove</button>
 			</div>
 		</div>
 	);
