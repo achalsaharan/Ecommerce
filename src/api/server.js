@@ -1,7 +1,7 @@
 import { createServer, Model, RestSerializer } from 'miragejs';
 import faker from 'faker';
 
-faker.seed(123);
+faker.seed(28);
 
 export function setupMockServer() {
 	createServer({
@@ -34,7 +34,9 @@ export function setupMockServer() {
 					brand: faker.lorem.word(),
 					inStock: faker.datatype.boolean(),
 					fastDelivery: faker.datatype.boolean(),
+					inWishList: false,
 					ratings: faker.random.arrayElement([1, 2, 3, 4, 5]),
+					discount: faker.random.arrayElement([0, 5, 15, 30]),
 					offer: faker.random.arrayElement([
 						'Save 50',
 						'70% bonanza',
@@ -67,6 +69,7 @@ export function setupMockServer() {
 					material: faker.commerce.productMaterial(),
 					brand: faker.lorem.word(),
 					inStock: faker.datatype.boolean(),
+					inWishList: true,
 					fastDelivery: faker.datatype.boolean(),
 					ratings: faker.random.arrayElement([1, 2, 3, 4, 5]),
 					offer: faker.random.arrayElement([

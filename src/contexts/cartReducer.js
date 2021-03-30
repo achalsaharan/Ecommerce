@@ -84,6 +84,27 @@ export function cartReducer(state, action) {
 			};
 		}
 
+		case 'TOGGLE_SHOW_OUT_OF_STOCK': {
+			return {
+				...state,
+				showOutOfStock: !state.showOutOfStock,
+			};
+		}
+
+		case 'TOGGLE_SHOW_FAST_DELIVERY_ONLY': {
+			return {
+				...state,
+				showFastDeliveryOnly: !state.showFastDeliveryOnly,
+			};
+		}
+
+		case 'SORT_PRODUCTS_BY_PRICE': {
+			return {
+				...state,
+				sortBy: action.payload,
+			};
+		}
+
 		default:
 			console.log('error in CART REDUCER');
 			break;

@@ -9,6 +9,9 @@ export function CartProvider({ children }) {
 		products: [],
 		cartItems: [],
 		wishListItems: [],
+		sortBy: 'NONE',
+		showOutOfStock: true,
+		showFastDeliveryOnly: false,
 	});
 
 	const dispatchWrapper = makeDispatchWrapper(state, dispatch);

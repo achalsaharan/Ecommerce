@@ -91,9 +91,13 @@ export function makeDispatchWrapper(state, dispatch) {
 			}
 
 			case 'REMOVE_FROM_WISHLIST': {
-				const res = await axios.delete(
-					`/api/wishListItems/${action.payload.id}`
+				//find the id of the item in the wishlist
+				const obj = state.wishListItems.find(
+					(wishListItem) =>
+						wishListItem.productId === action.payload.productId
 				);
+
+				const res = await axios.delete(`/api/wishListItems/${obj.id}`);
 
 				if (res.status === 204) {
 					dispatch({
@@ -162,6 +166,24 @@ export function makeDispatchWrapper(state, dispatch) {
 					});
 				}
 
+				break;
+			}
+
+			case 'TOGGLE_SHOW_OUT_OF_STOCK': {
+				dispatch({ type: 'TOGGLE_SHOW_OUT_OF_STOCK' });
+				break;
+			}
+
+			case 'TOGGLE_SHOW_FAST_DELIVERY_ONLY': {
+				dispatch({ type: 'TOGGLE_SHOW_FAST_DELIVERY_ONLY' });
+				break;
+			}
+
+			case 'SORT_PRODUCTS_BY_PRICE': {
+				dispatch({
+					type: 'SORT_PRODUCTS_BY_PRICE',
+					payload: action.payload,
+				});
 				break;
 			}
 

@@ -2,7 +2,7 @@ import { useCart } from '../contexts/CartProvider';
 
 export function Cart() {
 	const {
-		state: { cartItems },
+		state: { cartItems, wishListItems },
 		dispatch,
 		dispatchWrapper,
 	} = useCart();
@@ -10,21 +10,38 @@ export function Cart() {
 	return (
 		<div>
 			<h3>Cart</h3>
-			<div className="cards-display">
-				{cartItems.map((item) => (
-					<ItemCard
-						key={item.id}
-						item={item}
-						dispatch={dispatch}
-						dispatchWrapper={dispatchWrapper}
-					/>
-				))}
+			<div className="cart-grid">
+				<div className="cards-display-cart">
+					{cartItems.map((item) => (
+						<ItemCard
+							key={item.id}
+							item={item}
+							dispatch={dispatch}
+							dispatchWrapper={dispatchWrapper}
+							wishListItems={wishListItems}
+						/>
+					))}
+				</div>
+				<CartTotal />
 			</div>
 		</div>
 	);
 }
 
-function ItemCard({ item, dispatch, dispatchWrapper }) {
+function ItemCard({ item, dispatch, dispatchWrapper, wishListItems }) {
+	function handleLikeButtonClick(item) {
+		if (
+			//if already in wishlist
+			wishListItems.find(
+				(wishListItem) => wishListItem.productId === item.productId
+			) !== undefined
+		) {
+			dispatchWrapper({ type: 'REMOVE_FROM_WISHLIST', payload: item });
+		} else {
+			//if not in wishlist
+			dispatchWrapper({ type: 'ADD_TO_WISHLIST', payload: item });
+		}
+	}
 	return (
 		<div className="card shadow-box">
 			{/* to display out of stock content */}
@@ -40,22 +57,49 @@ function ItemCard({ item, dispatch, dispatchWrapper }) {
 					src={item.image}
 					alt={'img not avaliable'}
 				/>
+				<button
+					onClick={() => handleLikeButtonClick(item)}
+					className="like-product-btn"
+					style={{
+						backgroundColor:
+							wishListItems.find(
+								(wishListItem) =>
+									wishListItem.productId === item.productId
+							) !== undefined
+								? 'red'
+								: '#fff',
+					}}
+				>
+					<i
+						className="far fa-heart la-lg"
+						style={{
+							color:
+								wishListItems.find(
+									(wishListItem) =>
+										wishListItem.productId ===
+										item.productId
+								) !== undefined
+									? '#fff'
+									: 'red',
+						}}
+					></i>
+				</button>
 			</div>
 			<div className="card-text-container">
 				<p className="bold-font-weight product-title">{item.name}</p>
 				<p className="light-font-weight">{item.level} level</p>
 				{item.fastDelivery ? <p>Fast Delivery</p> : null}
-				<div className="card-price-info">
-					<span className="bold-font-weight">₹{item.price}</span>
-					<span className="strike-through text-small-size light-font-weight">
-						₹799
-					</span>
-					<span className="primary-text-color light-font-weight text-small-size">
-						(30% OFF)
-					</span>
-					<p></p>
-				</div>
 			</div>
+
+			<div className="card-price-info" style={{ marginLeft: '1rem' }}>
+				<span className="bold-font-weight">₹{item.price}</span>
+				{item.discount > 0 ? (
+					<span className="primary-text-color light-font-weight text-small-size">
+						({item.discount}% OFF)
+					</span>
+				) : null}
+			</div>
+
 			<div className="quantity-control">
 				<button
 					onClick={() =>
@@ -86,7 +130,7 @@ function ItemCard({ item, dispatch, dispatchWrapper }) {
 					margin: '0rem 1rem',
 				}}
 			>
-				<button
+				{/* <button
 					className="btn btn-secondary"
 					onClick={() =>
 						dispatchWrapper({
@@ -95,8 +139,8 @@ function ItemCard({ item, dispatch, dispatchWrapper }) {
 						})
 					}
 				>
-					ADD To Wishlist
-				</button>
+					Add To Wishlist
+				</button> */}
 				<button
 					className="btn btn-secondary"
 					onClick={() =>
@@ -109,6 +153,33 @@ function ItemCard({ item, dispatch, dispatchWrapper }) {
 					Remove
 				</button>
 			</div>
+		</div>
+	);
+}
+
+function CartTotal() {
+	return (
+		<div className="cart-total border-shadow padding1">
+			<h5>Cart Total</h5>
+			<hr style={{ marginBottom: '1rem' }} />
+			<div className="flex-space-between margin-bottom-1">
+				<span>Price (1 item)</span>
+				<span>₹866</span>
+			</div>
+			<div className="flex-space-between margin-bottom-1">
+				<span>Discount</span>
+				<span className="primary-text-color">- ₹40</span>
+			</div>
+			<div className="flex-space-between margin-bottom-1">
+				<span>Delivery Charges</span>
+				<span className="primary-text-color">FREE</span>
+			</div>
+			<hr style={{ marginBottom: '1rem' }} className="hr-dashed" />
+			<div className="flex-space-between margin-bottom-1">
+				<span className="bold-font-weight">TOTAL</span>
+				<span className="bold-font-weight">₹409</span>
+			</div>
+			<button className="btn btn-primary">CHECKOUT</button>
 		</div>
 	);
 }
