@@ -9,6 +9,7 @@ export function Products() {
 			showOutOfStock,
 			showFastDeliveryOnly,
 			wishListItems,
+			searchProduct,
 		},
 		dispatch,
 		dispatchWrapper,
@@ -21,6 +22,16 @@ export function Products() {
 		sortBy
 	) {
 		let data = [...intitialData];
+
+		//search result
+		if (searchProduct !== '') {
+			data = data.filter(
+				(item) =>
+					item.name
+						.toUpperCase()
+						.search(searchProduct.toUpperCase()) !== -1
+			);
+		}
 
 		data = data.filter(
 			(item) => item.fastDelivery || !showFastDeliveryOnly
@@ -46,7 +57,7 @@ export function Products() {
 
 	return (
 		<div>
-			<h3> Products </h3>
+			{/* <h3> Products </h3> */}
 			<FilterPanel
 				dispatch={dispatch}
 				dispatchWrapper={dispatchWrapper}
@@ -82,7 +93,7 @@ function FilterPanel({
 					className="show-search-options"
 					onClick={() => setShowRefineSearch(!showRefineSearch)}
 				>
-					<i class="fas fa-chevron-down fa-lg"></i>
+					<i className="fas fa-chevron-down fa-lg"></i>
 				</button>
 			</div>
 			{/* //todo fix this hack */}
@@ -231,7 +242,7 @@ function ProductCard({ product, dispatch, dispatchWrapper, wishListItems }) {
 	return (
 		<div className="card shadow-box">
 			{/* to display out of stock content */}
-			{!product.inStock ? (
+			{product.inStock === false ? (
 				<div className="out-of-stock">
 					<span>OUT OF STOCK</span>
 				</div>
@@ -270,6 +281,14 @@ function ProductCard({ product, dispatch, dispatchWrapper, wishListItems }) {
 						}}
 					></i>
 				</button>
+				<span className="product-rating">
+					<div className="rating">
+						<span>{product.ratings}</span>
+						<span>
+							<i className="fas fa-star"></i>
+						</span>
+					</div>
+				</span>
 			</div>
 			<div className="card-text-container">
 				<p className="bold-font-weight product-title">{product.name}</p>

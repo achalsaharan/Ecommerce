@@ -12,6 +12,7 @@ export function CartProvider({ children }) {
 		sortBy: 'NONE',
 		showOutOfStock: true,
 		showFastDeliveryOnly: false,
+		searchProduct: '',
 	});
 
 	const dispatchWrapper = makeDispatchWrapper(state, dispatch);

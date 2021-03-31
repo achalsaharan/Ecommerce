@@ -22,7 +22,7 @@ export function Cart() {
 						/>
 					))}
 				</div>
-				<CartTotal />
+				<CartTotal cartItems={cartItems} />
 			</div>
 		</div>
 	);
@@ -45,7 +45,7 @@ function ItemCard({ item, dispatch, dispatchWrapper, wishListItems }) {
 	return (
 		<div className="card shadow-box">
 			{/* to display out of stock content */}
-			{item.inStock ? (
+			{item.inStock === false ? (
 				<div className="out-of-stock">
 					<span>OUT OF STOCK</span>
 				</div>
@@ -84,6 +84,14 @@ function ItemCard({ item, dispatch, dispatchWrapper, wishListItems }) {
 						}}
 					></i>
 				</button>
+				<span className="product-rating">
+					<div className="rating">
+						<span>{item.ratings}</span>
+						<span>
+							<i className="fas fa-star"></i>
+						</span>
+					</div>
+				</span>
 			</div>
 			<div className="card-text-container">
 				<p className="bold-font-weight product-title">{item.name}</p>
@@ -157,14 +165,28 @@ function ItemCard({ item, dispatch, dispatchWrapper, wishListItems }) {
 	);
 }
 
-function CartTotal() {
+function CartTotal({ cartItems }) {
+	function calculateTotalPrice() {
+		const inStockItems = cartItems.filter((item) => item.inStock === true);
+
+		const price = inStockItems.reduce(
+			(acc, curr) => acc + parseInt(curr.price) * curr.quantity,
+			0
+		);
+
+		return price;
+	}
 	return (
 		<div className="cart-total border-shadow padding1">
 			<h5>Cart Total</h5>
 			<hr style={{ marginBottom: '1rem' }} />
 			<div className="flex-space-between margin-bottom-1">
-				<span>Price (1 item)</span>
-				<span>₹866</span>
+				<span>
+					Price (
+					{cartItems.filter((item) => item.inStock === true).length}{' '}
+					items)
+				</span>
+				<span>₹ {calculateTotalPrice()}</span>
 			</div>
 			<div className="flex-space-between margin-bottom-1">
 				<span>Discount</span>
@@ -177,7 +199,9 @@ function CartTotal() {
 			<hr style={{ marginBottom: '1rem' }} className="hr-dashed" />
 			<div className="flex-space-between margin-bottom-1">
 				<span className="bold-font-weight">TOTAL</span>
-				<span className="bold-font-weight">₹409</span>
+				<span className="bold-font-weight">
+					₹{calculateTotalPrice() - 40}
+				</span>
 			</div>
 			<button className="btn btn-primary">CHECKOUT</button>
 		</div>

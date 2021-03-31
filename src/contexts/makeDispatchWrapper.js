@@ -68,10 +68,10 @@ export function makeDispatchWrapper(state, dispatch) {
 
 			case 'ADD_TO_CART': {
 				//xx this check fails when we add an item two times very quickly
-				if (isPresentInArray(state.cartItems, action.payload)) {
-					alert('already present in cart');
-					break;
-				}
+				// if (isPresentInArray(state.cartItems, action.payload)) {
+				// 	alert('already present in cart');
+				// 	break;
+				// }
 
 				const obj = { ...action.payload };
 				delete obj.id;
@@ -184,6 +184,15 @@ export function makeDispatchWrapper(state, dispatch) {
 					type: 'SORT_PRODUCTS_BY_PRICE',
 					payload: action.payload,
 				});
+				break;
+			}
+
+			case 'SET_SEARCH_PRODUCT': {
+				dispatch({
+					type: 'SET_SEARCH_PRODUCT',
+					payload: action.payload,
+				});
+
 				break;
 			}
 

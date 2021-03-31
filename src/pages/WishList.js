@@ -42,7 +42,7 @@ function ItemCard({ item, dispatch, dispatchWrapper, wishListItems }) {
 	return (
 		<div className="card shadow-box">
 			{/* to display out of stock content */}
-			{item.inStock ? (
+			{item.inStock === false ? (
 				<div className="out-of-stock">
 					<span>OUT OF STOCK</span>
 				</div>
@@ -60,6 +60,14 @@ function ItemCard({ item, dispatch, dispatchWrapper, wishListItems }) {
 				>
 					<i className="fas fa-times la-lg"></i>
 				</button>
+				<span className="product-rating">
+					<div className="rating">
+						<span>{item.ratings}</span>
+						<span>
+							<i className="fas fa-star"></i>
+						</span>
+					</div>
+				</span>
 			</div>
 			<div className="card-text-container">
 				<p className="bold-font-weight product-title">{item.name}</p>

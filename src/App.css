@@ -4,11 +4,19 @@
 	--max-width: 1000px;
 }
 
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	min-height: 100vh;
+}
+
 .page-container {
 	max-width: var(--max-width);
 	margin: 0 auto;
 	padding: 1rem;
-	margin-top: 5rem;
+	margin-top: 1rem;
 }
 
 .route-btn-group > button {
@@ -41,12 +49,13 @@
 	opacity: 0.5;
 	font-size: 2rem;
 	width: 100%;
-	height: 55%;
+	height: 60%;
 	text-align: center;
 	color: #000;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	z-index: 1;
 }
 
 .quantity-control {
@@ -64,10 +73,6 @@
 
 .quantity-control > span {
 	padding: 0.18rem 0.25rem;
-}
-
-.header {
-	padding: 1rem;
 }
 
 .header-links {
@@ -96,7 +101,7 @@
 	justify-content: center;
 	border-radius: 50%;
 	top: -1rem;
-	left: 0.7rem;
+	left: 1.7rem;
 	color: #fff;
 }
 
@@ -197,6 +202,7 @@ hr {
 	background-color: #fff;
 	outline: none;
 	transition-duration: 0.1s;
+	z-index: 2;
 }
 
 .like-product-btn > i {
@@ -205,6 +211,73 @@ hr {
 
 .like-product-btn:hover {
 	font-size: 1.2rem;
+}
+
+.product-rating {
+	position: absolute;
+	bottom: 1rem;
+	right: 1rem;
+	z-index: 2;
+}
+
+.header {
+	padding: 0rem 1rem;
+	flex-wrap: wrap;
+}
+
+.header-container {
+	position: relative;
+	box-shadow: none;
+}
+
+.header-search-bar {
+	padding: 0.5rem 1rem;
+	margin: 0.5rem auto;
+	min-width: 300px;
+	display: flex;
+}
+
+.header-search-bar > input {
+	outline: none;
+	border: none;
+	margin-right: 0.5rem;
+	width: 100%;
+}
+
+.header-search-bar > button {
+	outline: none;
+	border: none;
+	background: none;
+	font-size: 1rem;
+}
+
+.header-search-bar > button:hover {
+	color: var(--primary);
+}
+
+.links-bar {
+	display: flex;
+	padding: 1.2rem 0rem;
+	position: -webkit-sticky;
+	position: sticky;
+	top: 0;
+	background-color: var(--primary);
+	max-width: var(--max-width);
+	margin: 0 auto;
+	z-index: 3;
+}
+
+.links-bar > button {
+	background: none;
+	border: none;
+	padding: 0rem 1rem;
+	outline: none;
+	position: relative;
+	font-size: 1rem;
+}
+
+.links-bar > button:hover {
+	font-weight: bolder;
 }
 
 @media only screen and (max-width: 500px) {
@@ -223,5 +296,18 @@ hr {
 
 	.refine-search {
 		display: none;
+	}
+
+	.cart-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.cards-display-cart {
+		grid-template-columns: 1fr;
+		justify-items: center;
+	}
+
+	.header-search-bar {
+		width: auto;
 	}
 }

@@ -1,4 +1,5 @@
 import { isPresentInArray } from './arrayUtils';
+import { toast } from 'react-toastify';
 
 export function cartReducer(state, action) {
 	switch (action.type) {
@@ -22,8 +23,8 @@ export function cartReducer(state, action) {
 
 		case 'ADD_TO_CART':
 			if (isPresentInArray(state.cartItems, action.payload)) {
-				alert('already present in cart but missed by dispatch wrapper');
-				return state;
+				toast.success('already present in cart');
+				return { ...state };
 			}
 			return {
 				...state,
@@ -102,6 +103,13 @@ export function cartReducer(state, action) {
 			return {
 				...state,
 				sortBy: action.payload,
+			};
+		}
+
+		case 'SET_SEARCH_PRODUCT': {
+			return {
+				...state,
+				searchProduct: action.payload,
 			};
 		}
 
