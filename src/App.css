@@ -225,6 +225,10 @@ hr {
 	flex-wrap: wrap;
 }
 
+.header > h1 {
+	font-family: 'Roboto', sans-seridf;
+}
+
 .header-container {
 	position: relative;
 	box-shadow: none;
@@ -280,6 +284,20 @@ hr {
 	font-weight: bolder;
 }
 
+.page-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	align-self: stretch;
+	color: var(--gray-light);
+	min-height: 50vh;
+}
+
+.page-empty > h3 {
+	color: inherit;
+}
+
 @media only screen and (max-width: 500px) {
 	.cards-display {
 		grid-template-columns: 1fr;
@@ -309,5 +327,9 @@ hr {
 
 	.header-search-bar {
 		width: auto;
+	}
+
+	.out-of-stock {
+		height: 63%;
 	}
 }

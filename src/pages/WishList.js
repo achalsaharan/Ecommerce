@@ -10,17 +10,21 @@ export function WishList() {
 	return (
 		<div>
 			<h3>Wish List</h3>
-			<div className="cards-display">
-				{wishListItems.map((item) => (
-					<ItemCard
-						key={item.id}
-						item={item}
-						dispatch={dispatch}
-						dispatchWrapper={dispatchWrapper}
-						wishListItems={wishListItems}
-					/>
-				))}
-			</div>
+			{wishListItems.length === 0 ? (
+				<WishListEmpty />
+			) : (
+				<div className="cards-display">
+					{wishListItems.map((item) => (
+						<ItemCard
+							key={item.id}
+							item={item}
+							dispatch={dispatch}
+							dispatchWrapper={dispatchWrapper}
+							wishListItems={wishListItems}
+						/>
+					))}
+				</div>
+			)}
 		</div>
 	);
 }
@@ -111,6 +115,15 @@ function ItemCard({ item, dispatch, dispatchWrapper, wishListItems }) {
 					Remove
 				</button> */}
 			</div>
+		</div>
+	);
+}
+
+function WishListEmpty() {
+	return (
+		<div class="page-empty">
+			<h3>Wish List Is Empty</h3>
+			<i class="fas fa-heart fa-5x"></i>
 		</div>
 	);
 }

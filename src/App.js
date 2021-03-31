@@ -4,7 +4,7 @@ import { Products } from './pages/Products';
 import { Cart } from './pages/Cart';
 import { WishList } from './pages/WishList';
 import { useCart } from './contexts/CartProvider';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function NavBar({ setRoute }) {

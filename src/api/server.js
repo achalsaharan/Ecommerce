@@ -60,7 +60,7 @@ export function setupMockServer() {
 				});
 			});
 
-			[...Array(2)].forEach((_) => {
+			[...Array(0)].forEach((_) => {
 				server.create('wishListItem', {
 					productId: faker.datatype.uuid(),
 					name: faker.commerce.productName(),
@@ -95,7 +95,7 @@ export function setupMockServer() {
 				});
 			});
 
-			[...Array(2)].forEach((_) => {
+			[...Array(0)].forEach((_) => {
 				server.create('cartItem', {
 					productId: faker.datatype.uuid(),
 					name: faker.commerce.productName(),

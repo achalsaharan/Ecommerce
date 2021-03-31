@@ -10,20 +10,35 @@ export function Cart() {
 	return (
 		<div>
 			<h3>Cart</h3>
+
 			<div className="cart-grid">
-				<div className="cards-display-cart">
-					{cartItems.map((item) => (
-						<ItemCard
-							key={item.id}
-							item={item}
-							dispatch={dispatch}
-							dispatchWrapper={dispatchWrapper}
-							wishListItems={wishListItems}
-						/>
-					))}
-				</div>
+				{cartItems.length === 0 ? (
+					<CartEmpty />
+				) : (
+					<div className="cards-display-cart">
+						{cartItems.map((item) => (
+							<ItemCard
+								key={item.id}
+								item={item}
+								dispatch={dispatch}
+								dispatchWrapper={dispatchWrapper}
+								wishListItems={wishListItems}
+							/>
+						))}
+					</div>
+				)}
+
 				<CartTotal cartItems={cartItems} />
 			</div>
+		</div>
+	);
+}
+
+function CartEmpty() {
+	return (
+		<div class="page-empty">
+			<h3>Cart Is Empty</h3>
+			<i class="fas fa-shopping-cart fa-5x"></i>
 		</div>
 	);
 }
@@ -190,7 +205,11 @@ function CartTotal({ cartItems }) {
 			</div>
 			<div className="flex-space-between margin-bottom-1">
 				<span>Discount</span>
-				<span className="primary-text-color">- ₹40</span>
+				{calculateTotalPrice() > 0 ? (
+					<span className="primary-text-color">- ₹40</span>
+				) : (
+					<span className="primary-text-color">- ₹0</span>
+				)}
 			</div>
 			<div className="flex-space-between margin-bottom-1">
 				<span>Delivery Charges</span>
@@ -200,7 +219,8 @@ function CartTotal({ cartItems }) {
 			<div className="flex-space-between margin-bottom-1">
 				<span className="bold-font-weight">TOTAL</span>
 				<span className="bold-font-weight">
-					₹{calculateTotalPrice() - 40}
+					₹
+					{calculateTotalPrice() > 0 ? calculateTotalPrice() - 40 : 0}
 				</span>
 			</div>
 			<button className="btn btn-primary">CHECKOUT</button>
