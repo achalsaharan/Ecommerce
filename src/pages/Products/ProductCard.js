@@ -1,9 +1,4 @@
-export function ProductCard({
-	product,
-	dispatch,
-	dispatchWrapper,
-	wishListItems,
-}) {
+export function ProductCard({ product, dispatchWrapper, wishListItems }) {
 	function handleLikeButtonClick(item) {
 		if (
 			//if already in wishlist

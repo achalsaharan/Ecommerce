@@ -1,8 +1,6 @@
 import { useState } from 'react';
 
 export function FilterPanel({
-	product,
-	dispatch,
 	dispatchWrapper,
 	showFastDeliveryOnly,
 	showOutOfStock,

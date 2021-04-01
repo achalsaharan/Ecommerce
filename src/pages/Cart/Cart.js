@@ -6,7 +6,6 @@ import './Cart.css';
 export function Cart() {
 	const {
 		state: { cartItems, wishListItems },
-		dispatch,
 		dispatchWrapper,
 	} = useCart();
 
@@ -26,7 +25,6 @@ export function Cart() {
 							<CartItemCard
 								key={item.id}
 								item={item}
-								dispatch={dispatch}
 								dispatchWrapper={dispatchWrapper}
 								wishListItems={wishListItems}
 							/>

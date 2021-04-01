@@ -1,9 +1,4 @@
-export function CartItemCard({
-	item,
-	dispatch,
-	dispatchWrapper,
-	wishListItems,
-}) {
+export function CartItemCard({ item, dispatchWrapper, wishListItems }) {
 	function handleLikeButtonClick(item) {
 		if (
 			//if already in wishlist
@@ -19,7 +14,6 @@ export function CartItemCard({
 	}
 	return (
 		<div className="card shadow-box">
-			{/* to display out of stock content */}
 			{item.inStock === false ? (
 				<div className="out-of-stock">
 					<span>OUT OF STOCK</span>
@@ -83,29 +77,33 @@ export function CartItemCard({
 				) : null}
 			</div>
 
-			<div className="quantity-control">
-				<button
-					onClick={() =>
-						dispatchWrapper({
-							type: 'INCREASE_CART_ITEM_QUANTITY',
-							payload: item,
-						})
-					}
-				>
-					+
-				</button>
-				<span>{item.quantity}</span>
-				<button
-					onClick={() =>
-						dispatchWrapper({
-							type: 'DECREASE_CART_ITEM_QUANTITY',
-							payload: item,
-						})
-					}
-				>
-					-
-				</button>
-			</div>
+			{item.inStock ? (
+				<div className="quantity-control">
+					<button
+						onClick={() =>
+							dispatchWrapper({
+								type: 'INCREASE_CART_ITEM_QUANTITY',
+								payload: item,
+							})
+						}
+					>
+						+
+					</button>
+					<span>{item.quantity}</span>
+					<button
+						disabled={item.quantity <= 1 ? true : false}
+						onClick={() =>
+							dispatchWrapper({
+								type: 'DECREASE_CART_ITEM_QUANTITY',
+								payload: item,
+							})
+						}
+					>
+						-
+					</button>
+				</div>
+			) : null}
+
 			<div
 				style={{
 					display: 'flex',
@@ -113,17 +111,6 @@ export function CartItemCard({
 					margin: '0rem 1rem',
 				}}
 			>
-				{/* <button
-					className="btn btn-secondary"
-					onClick={() =>
-						dispatchWrapper({
-							type: 'ADD_TO_WISHLIST',
-							payload: item,
-						})
-					}
-				>
-					Add To Wishlist
-				</button> */}
 				<button
 					className="btn btn-secondary"
 					onClick={() =>

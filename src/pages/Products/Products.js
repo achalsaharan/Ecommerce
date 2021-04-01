@@ -13,7 +13,6 @@ export function Products() {
 			wishListItems,
 			searchProduct,
 		},
-		dispatch,
 		dispatchWrapper,
 	} = useCart();
 
@@ -28,16 +27,12 @@ export function Products() {
 	return (
 		<div>
 			{/* <h3> Products </h3> */}
-			<FilterPanel
-				dispatch={dispatch}
-				dispatchWrapper={dispatchWrapper}
-			/>
+			<FilterPanel dispatchWrapper={dispatchWrapper} />
 			<div className="cards-display">
 				{data.map((product) => (
 					<ProductCard
 						key={product.id}
 						product={product}
-						dispatch={dispatch}
 						dispatchWrapper={dispatchWrapper}
 						wishListItems={wishListItems}
 					/>
