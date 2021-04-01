@@ -23,9 +23,17 @@ export function cartReducer(state, action) {
 
 		case 'ADD_TO_CART':
 			if (isPresentInArray(state.cartItems, action.payload)) {
-				toast.success('already present in cart');
+				toast.success('Already Present In Cart', {
+					autoClose: 2000,
+					hideProgressBar: true,
+				});
 				return { ...state };
 			}
+
+			toast.success('Added To Cart', {
+				autoClose: 2000,
+				hideProgressBar: true,
+			});
 			return {
 				...state,
 				cartItems: [

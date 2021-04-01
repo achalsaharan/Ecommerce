@@ -1,35 +1,9 @@
-import { useCart } from '../contexts/CartProvider';
-
-export function WishList() {
-	const {
-		state: { wishListItems },
-		dispatch,
-		dispatchWrapper,
-	} = useCart();
-
-	return (
-		<div>
-			<h3>Wish List</h3>
-			{wishListItems.length === 0 ? (
-				<WishListEmpty />
-			) : (
-				<div className="cards-display">
-					{wishListItems.map((item) => (
-						<ItemCard
-							key={item.id}
-							item={item}
-							dispatch={dispatch}
-							dispatchWrapper={dispatchWrapper}
-							wishListItems={wishListItems}
-						/>
-					))}
-				</div>
-			)}
-		</div>
-	);
-}
-
-function ItemCard({ item, dispatch, dispatchWrapper, wishListItems }) {
+export function ProductCard({
+	product,
+	dispatch,
+	dispatchWrapper,
+	wishListItems,
+}) {
 	function handleLikeButtonClick(item) {
 		if (
 			//if already in wishlist
@@ -43,10 +17,11 @@ function ItemCard({ item, dispatch, dispatchWrapper, wishListItems }) {
 			dispatchWrapper({ type: 'ADD_TO_WISHLIST', payload: item });
 		}
 	}
+
 	return (
 		<div className="card shadow-box">
 			{/* to display out of stock content */}
-			{item.inStock === false ? (
+			{product.inStock === false ? (
 				<div className="out-of-stock">
 					<span>OUT OF STOCK</span>
 				</div>
@@ -55,18 +30,39 @@ function ItemCard({ item, dispatch, dispatchWrapper, wishListItems }) {
 			<div className="image-container">
 				<img
 					className="image-responsive"
-					src={item.image}
+					src={product.image}
 					alt={'img not avaliable'}
 				/>
 				<button
-					onClick={() => handleLikeButtonClick(item)}
+					onClick={() => handleLikeButtonClick(product)}
 					className="like-product-btn"
+					style={{
+						backgroundColor:
+							wishListItems.find(
+								(wishListItem) =>
+									wishListItem.productId === product.productId
+							) !== undefined
+								? 'red'
+								: '#fff',
+					}}
 				>
-					<i className="fas fa-times la-lg"></i>
+					<i
+						className="far fa-heart la-lg"
+						style={{
+							color:
+								wishListItems.find(
+									(wishListItem) =>
+										wishListItem.productId ===
+										product.productId
+								) !== undefined
+									? '#fff'
+									: 'red',
+						}}
+					></i>
 				</button>
 				<span className="product-rating">
 					<div className="rating">
-						<span>{item.ratings}</span>
+						<span>{product.ratings}</span>
 						<span>
 							<i className="fas fa-star"></i>
 						</span>
@@ -74,16 +70,16 @@ function ItemCard({ item, dispatch, dispatchWrapper, wishListItems }) {
 				</span>
 			</div>
 			<div className="card-text-container">
-				<p className="bold-font-weight product-title">{item.name}</p>
-				<p className="light-font-weight">{item.level} level</p>
-				{item.fastDelivery ? <p>Fast Delivery</p> : null}
+				<p className="bold-font-weight product-title">{product.name}</p>
+				<p className="light-font-weight">{product.level} level</p>
+				{product.fastDelivery ? <p>Fast Delivery</p> : null}
 			</div>
 
 			<div className="card-price-info" style={{ marginLeft: '1rem' }}>
-				<span className="bold-font-weight">₹{item.price}</span>
-				{item.discount > 0 ? (
+				<span className="bold-font-weight">₹{product.price}</span>
+				{product.discount > 0 ? (
 					<span className="primary-text-color light-font-weight text-small-size">
-						({item.discount}% OFF)
+						({product.discount}% OFF)
 					</span>
 				) : null}
 			</div>
@@ -98,32 +94,26 @@ function ItemCard({ item, dispatch, dispatchWrapper, wishListItems }) {
 				<button
 					className="btn btn-primary"
 					onClick={() =>
-						dispatchWrapper({ type: 'ADD_TO_CART', payload: item })
+						dispatchWrapper({
+							type: 'ADD_TO_CART',
+							payload: product,
+						})
 					}
 				>
-					ADD TO CART
+					Add To Cart
 				</button>
 				{/* <button
 					className="btn btn-secondary"
 					onClick={() =>
 						dispatchWrapper({
-							type: 'REMOVE_FROM_WISHLIST',
-							payload: item,
+							type: 'ADD_TO_WISHLIST',
+							payload: product,
 						})
 					}
 				>
-					Remove
+					Add To Wishlist
 				</button> */}
 			</div>
-		</div>
-	);
-}
-
-function WishListEmpty() {
-	return (
-		<div class="page-empty">
-			<h3>Wish List Is Empty</h3>
-			<i class="fas fa-heart fa-5x"></i>
 		</div>
 	);
 }
