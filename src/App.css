@@ -1,132 +1,132 @@
 @import 'https://pixelui.netlify.app/styles/styles.css';
 
 :root {
-	--max-width: 1000px;
+    --max-width: 1000px;
 }
 
 .page-container {
-	max-width: var(--max-width);
-	margin: 0 auto;
-	padding: 1rem;
-	margin-top: 1rem;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 1rem;
+    margin-top: 1rem;
 }
 
 .cards-display {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-gap: 2rem;
-	margin-top: 1rem;
-	justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 2rem;
+    margin-top: 1rem;
+    justify-content: center;
 }
 
 .out-of-stock {
-	position: absolute;
-	background-color: #fff;
-	opacity: 0.5;
-	font-size: 2rem;
-	width: 100%;
-	height: 60%;
-	text-align: center;
-	color: #000;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	z-index: 1;
+    position: absolute;
+    background-color: #fff;
+    opacity: 0.5;
+    font-size: 2rem;
+    width: 100%;
+    height: 60%;
+    text-align: center;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
 }
 
 .icon-badge {
-	position: absolute;
-	display: flex;
-	height: 18px;
-	width: 18px;
-	background-color: red;
-	align-items: center;
-	justify-content: center;
-	border-radius: 50%;
-	top: -1rem;
-	left: 1.7rem;
-	color: #fff;
+    position: absolute;
+    display: flex;
+    height: 18px;
+    width: 18px;
+    background-color: red;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    top: -1rem;
+    left: 1.7rem;
+    color: #fff;
 }
 
 .card {
-	max-width: 350px;
+    max-width: 350px;
 }
 
 .border-shadow {
-	box-shadow: 0px 0px 10px 4px rgb(0 0 0 / 5%);
+    box-shadow: 0px 0px 10px 4px rgb(0 0 0 / 5%);
 }
 
 .padding1 {
-	padding: 0.5rem;
+    padding: 0.5rem;
 }
 
 .flex-space-between {
-	display: flex;
-	justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
 .margin-bottom-1 {
-	margin-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
 .divider {
-	border: 0.1px solid black;
-	height: 0rem;
-	width: 100%;
+    border: 0.1px solid black;
+    height: 0rem;
+    width: 100%;
 }
 
 hr {
-	margin: 0rem 0rem;
+    margin: 0rem 0rem;
 }
 
 .hr-dashed {
-	border-top: 1px dashed;
+    border-top: 1px dashed;
 }
 
 .image-container {
-	position: relative;
+    position: relative;
 }
 
 .like-product-btn {
-	position: absolute;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	right: 1rem;
-	top: 1rem;
-	background: none;
-	border: none;
-	height: 2rem;
-	width: 2rem;
-	border-radius: 50%;
-	background-color: #fff;
-	outline: none;
-	transition-duration: 0.1s;
-	z-index: 2;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 1rem;
+    top: 1rem;
+    background: none;
+    border: none;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    background-color: #fff;
+    outline: none;
+    transition-duration: 0.1s;
+    z-index: 2;
 }
 
 .like-product-btn > i {
-	color: red;
+    color: red;
 }
 
 .like-product-btn:hover {
-	font-size: 1.2rem;
+    font-size: 1.2rem;
 }
 
 .product-rating {
-	position: absolute;
-	bottom: 1rem;
-	right: 1rem;
-	z-index: 2;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 2;
 }
 
 @media only screen and (max-width: 500px) {
-	.cards-display {
-		grid-template-columns: 1fr;
-		justify-items: center;
-	}
+    .cards-display {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
 
-	.out-of-stock {
-		height: 63%;
-	}
+    .out-of-stock {
+        height: 63%;
+    }
 }

@@ -1,40 +1,40 @@
 .refine-search {
-	display: flex;
-	flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .filter-group {
-	display: flex;
-	flex-direction: column;
-	margin-right: 2rem;
-	/* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    margin-right: 2rem;
+    /* border: 1px solid red; */
 }
 
 .filter-group > p {
-	margin: 0.1rem 0rem;
+    margin: 0.1rem 0rem;
 }
 
 .filter-group > label {
-	margin: 0.5rem 0rem;
+    margin: 0.5rem 0rem;
 }
 
 .filter-group > label > input {
-	margin-right: 0.5rem;
+    margin-right: 0.5rem;
 }
 
 .show-search-options {
-	border: none;
-	background: none;
-	padding: 0.2rem;
-	display: none;
+    border: none;
+    background: none;
+    padding: 0.2rem;
+    display: none;
 }
 
 @media only screen and (max-width: 500px) {
-	.show-search-options {
-		display: inline-block;
-	}
+    .show-search-options {
+        display: inline-block;
+    }
 
-	.refine-search {
-		display: none;
-	}
+    .refine-search {
+        display: none;
+    }
 }
