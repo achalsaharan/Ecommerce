@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { isPresentInArray } from './arrayUtils';
+const API = 'http://localhost:3999';
 
 export const ActionTypes = {
     SET_PRODUCTS: 'SET_PRODUCTS',
@@ -17,12 +18,18 @@ export const ActionTypes = {
     SET_SEARCH_PRODUCT: 'SET_SEARCH_PRODUCT',
 };
 
-export function makeDispatchWrapper(state, dispatch) {
+export function makeDispatchWrapper(
+    state,
+    dispatch,
+    userId,
+    cartId,
+    wishListId
+) {
     async function dispatchWrapper(action) {
         switch (action.type) {
             case 'GET_PRODUCTS': {
-                const res = await axios.get('/api/products');
-
+                console.log('getting products..');
+                const res = await axios.get(`${API}/products`);
                 if (res.status === 200) {
                     dispatch({
                         type: 'SET_PRODUCTS',
@@ -34,24 +41,26 @@ export function makeDispatchWrapper(state, dispatch) {
             }
 
             case 'GET_WISHLIST': {
-                const res = await axios.get('/api/wishListItems');
+                console.log('loading wishlist....');
+                const res = await axios.get(`${API}/wishlists/${wishListId}`);
 
                 if (res.status === 200) {
                     dispatch({
                         type: 'SET_WISHLIST',
-                        payload: res.data.wishListItems,
+                        payload: res.data.products,
                     });
                 }
                 break;
             }
 
             case 'GET_CART': {
-                const res = await axios.get('/api/cartItems');
+                console.log('loading cart....');
+                const res = await axios.get(`${API}/carts/${cartId}`);
 
                 if (res.status === 200) {
                     dispatch({
                         type: 'SET_CART',
-                        payload: res.data.cartItems,
+                        payload: res.data.products,
                     });
                 }
 
@@ -64,18 +73,15 @@ export function makeDispatchWrapper(state, dispatch) {
                     alert('already present in arr');
                     break;
                 }
-
-                const obj = { ...action.payload };
-                delete obj.quantity;
-                delete obj.id;
-                const res = await axios.post('/api/wishListItems', {
-                    wishListItem: obj,
+                console.log('adding to wishlist....');
+                const res = await axios.post(`${API}/wishlists/${wishListId}`, {
+                    _id: action.payload._id,
                 });
 
                 if (res.status === 201) {
                     dispatch({
                         type: 'ADD_TO_WISHLIST',
-                        payload: res.data.wishListItem,
+                        payload: res.data.product,
                     });
                 }
 
@@ -89,17 +95,25 @@ export function makeDispatchWrapper(state, dispatch) {
                 // 	break;
                 // }
 
-                const obj = { ...action.payload };
-                delete obj.id;
+                // const obj = { ...action.payload };
+                console.log('adding to cart', action.payload);
+                // delete obj.id;
 
-                const res = await axios.post('/api/cartItems', {
-                    cartItem: { ...obj, quantity: 1 },
+                // const res = await axios.post('/api/cartItems', {
+                //     cartItem: { ...obj, quantity: 1 },
+                // });
+
+                const res = await axios.post(`${API}/carts/${cartId}`, {
+                    _id: action.payload._id,
+                    quantity: 1,
                 });
+
+                console.log({ res });
 
                 if (res.status === 201) {
                     dispatch({
                         type: 'ADD_TO_CART',
-                        payload: res.data.cartItem,
+                        payload: res.data.product,
                     });
                 }
 
@@ -107,15 +121,16 @@ export function makeDispatchWrapper(state, dispatch) {
             }
 
             case 'REMOVE_FROM_WISHLIST': {
-                //find the id of the item in the wishlist
-                const obj = state.wishListItems.find(
-                    (wishListItem) =>
-                        wishListItem.productId === action.payload.productId
+                const res = await axios.delete(
+                    `${API}/wishlists/${wishListId}`,
+                    {
+                        data: {
+                            _id: action.payload._id,
+                        },
+                    }
                 );
 
-                const res = await axios.delete(`/api/wishListItems/${obj.id}`);
-
-                if (res.status === 204) {
+                if (res.status === 201) {
                     dispatch({
                         type: 'REMOVE_FROM_WISHLIST',
                         payload: action.payload,
@@ -128,9 +143,9 @@ export function makeDispatchWrapper(state, dispatch) {
             }
 
             case 'REMOVE_FROM_CART': {
-                const res = await axios.delete(
-                    `/api/cartItems/${action.payload.id}`
-                );
+                const res = await axios.delete(`${API}/carts/${cartId}`, {
+                    _id: action.payload._id,
+                });
                 if (res.status === 204) {
                     dispatch({
                         type: 'REMOVE_FROM_CART',
@@ -142,22 +157,15 @@ export function makeDispatchWrapper(state, dispatch) {
             }
 
             case 'INCREASE_CART_ITEM_QUANTITY': {
-                const obj = {
-                    ...action.payload,
+                const res = await axios.post(`${API}/carts/${cartId}`, {
+                    _id: action.payload._id,
                     quantity: action.payload.quantity + 1,
-                };
+                });
 
-                const res = await axios.put(
-                    `/api/cartItems/${action.payload.id}`,
-                    {
-                        cartItem: obj,
-                    }
-                );
-
-                if (res.status === 200) {
+                if (res.status === 201) {
                     dispatch({
                         type: 'INCREASE_CART_ITEM_QUANTITY',
-                        payload: res.data.cartItem,
+                        payload: res.data.product,
                     });
                 }
 
@@ -165,20 +173,15 @@ export function makeDispatchWrapper(state, dispatch) {
             }
 
             case 'DECREASE_CART_ITEM_QUANTITY': {
-                const res = await axios.put(
-                    `/api/cartItems/${action.payload.id}`,
-                    {
-                        cartItem: {
-                            ...action.payload,
-                            quantity: action.payload.quantity - 1,
-                        },
-                    }
-                );
+                const res = await axios.post(`${API}/carts/${cartId}`, {
+                    _id: action.payload._id,
+                    quantity: action.payload.quantity - 1,
+                });
 
-                if (res.status === 200) {
+                if (res.status === 201) {
                     dispatch({
                         type: 'DECREASE_CART_ITEM_QUANTITY',
-                        payload: res.data.cartItem,
+                        payload: res.data.product,
                     });
                 }
 

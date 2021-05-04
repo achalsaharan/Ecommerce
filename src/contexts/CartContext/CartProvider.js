@@ -1,6 +1,7 @@
 import { createContext, useEffect, useContext, useReducer } from 'react';
 import { cartReducer } from './cartReducer';
 import { makeDispatchWrapper } from './makeDispatchWrapper';
+import { useAuthentication } from '../AuthenticationContext/AuthenticationProvider';
 
 export const CartContext = createContext();
 
@@ -15,15 +16,36 @@ export function CartProvider({ children }) {
         searchProduct: '',
     });
 
-    const dispatchWrapper = makeDispatchWrapper(state, dispatch);
+    const {
+        state: { userId, cartId, wishListId },
+    } = useAuthentication();
+
+    const dispatchWrapper = makeDispatchWrapper(
+        state,
+        dispatch,
+        userId,
+        cartId,
+        wishListId
+    );
 
     useEffect(() => {
         dispatchWrapper({ type: 'GET_PRODUCTS' });
-        dispatchWrapper({ type: 'GET_WISHLIST' });
-        dispatchWrapper({ type: 'GET_CART' });
+
         //TODO React Hook useEffect has a missing dependency: 'disaptchWrapper'.
         //TODO Either include it or remove the dependency array  react-hooks/exhaustive-deps
     }, []); //eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(() => {
+        if (cartId) {
+            dispatchWrapper({ type: 'GET_CART' });
+        }
+    }, [cartId]); //eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(() => {
+        if (wishListId) {
+            dispatchWrapper({ type: 'GET_WISHLIST' });
+        }
+    }, [wishListId]); //eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <CartContext.Provider value={{ state, dispatch, dispatchWrapper }}>

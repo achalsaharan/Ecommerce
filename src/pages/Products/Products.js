@@ -1,4 +1,4 @@
-import { useCart } from '../../contexts/CartProvider';
+import { useCart } from '../../contexts';
 import { ProductCard } from './ProductCard';
 import { FilterPanel } from './FilterPanel';
 import './Products.css';
@@ -30,7 +30,7 @@ export function Products() {
             <div className="cards-display">
                 {data.map((product) => (
                     <ProductCard
-                        key={product.id}
+                        key={product._id}
                         product={product}
                         dispatchWrapper={dispatchWrapper}
                         wishListItems={wishListItems}

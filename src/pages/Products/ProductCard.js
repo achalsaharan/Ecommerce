@@ -1,9 +1,23 @@
+import { useAuthentication } from '../../contexts';
+import { useNavigate, Navigate } from 'react-router-dom';
+
 export function ProductCard({ product, dispatchWrapper, wishListItems }) {
+    const {
+        state: { userId },
+    } = useAuthentication();
+
+    const navigate = useNavigate();
+
     function handleLikeButtonClick(item) {
+        if (userId === null) {
+            console.log('navigating to login');
+            return navigate('/login');
+        }
+
         if (
             //if already in wishlist
             wishListItems.find(
-                (wishListItem) => wishListItem.productId === item.productId
+                (wishListItem) => wishListItem._id === item._id
             ) !== undefined
         ) {
             dispatchWrapper({ type: 'REMOVE_FROM_WISHLIST', payload: item });
@@ -11,6 +25,18 @@ export function ProductCard({ product, dispatchWrapper, wishListItems }) {
             //if not in wishlist
             dispatchWrapper({ type: 'ADD_TO_WISHLIST', payload: item });
         }
+    }
+
+    function handleAddToCartBtnClick(product) {
+        if (userId === null) {
+            console.log('navigating to login');
+            return navigate('/login');
+        }
+
+        dispatchWrapper({
+            type: 'ADD_TO_CART',
+            payload: product,
+        });
     }
 
     return (
@@ -35,7 +61,7 @@ export function ProductCard({ product, dispatchWrapper, wishListItems }) {
                         backgroundColor:
                             wishListItems.find(
                                 (wishListItem) =>
-                                    wishListItem.productId === product.productId
+                                    wishListItem._id === product._id
                             ) !== undefined
                                 ? 'red'
                                 : '#fff',
@@ -47,8 +73,7 @@ export function ProductCard({ product, dispatchWrapper, wishListItems }) {
                             color:
                                 wishListItems.find(
                                     (wishListItem) =>
-                                        wishListItem.productId ===
-                                        product.productId
+                                        wishListItem._id === product._id
                                 ) !== undefined
                                     ? '#fff'
                                     : 'red',
@@ -88,12 +113,7 @@ export function ProductCard({ product, dispatchWrapper, wishListItems }) {
             >
                 <button
                     className="btn btn-primary"
-                    onClick={() =>
-                        dispatchWrapper({
-                            type: 'ADD_TO_CART',
-                            payload: product,
-                        })
-                    }
+                    onClick={() => handleAddToCartBtnClick(product)}
                 >
                     Add To Cart
                 </button>

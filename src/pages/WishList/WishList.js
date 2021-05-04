@@ -1,4 +1,4 @@
-import { useCart } from '../../contexts/CartProvider';
+import { useCart } from '../../contexts';
 import { WishListItemCard } from './WishListItemCart';
 import './WishList.css';
 

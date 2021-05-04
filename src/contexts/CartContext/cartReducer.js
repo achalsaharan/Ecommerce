@@ -50,6 +50,8 @@ export function cartReducer(state, action) {
                 return state;
             }
 
+            console.log('adding to wishlist');
+
             return {
                 ...state,
                 wishListItems: [...state.wishListItems, action.payload],
@@ -59,7 +61,7 @@ export function cartReducer(state, action) {
             return {
                 ...state,
                 wishListItems: state.wishListItems.filter(
-                    (item) => item.productId !== action.payload.productId
+                    (item) => item._id !== action.payload._id
                 ),
             };
 
@@ -67,7 +69,7 @@ export function cartReducer(state, action) {
             return {
                 ...state,
                 cartItems: state.cartItems.filter(
-                    (item) => item.productId !== action.payload.productId
+                    (item) => item._id !== action.payload._id
                 ),
             };
 
@@ -75,7 +77,7 @@ export function cartReducer(state, action) {
             return {
                 ...state,
                 cartItems: state.cartItems.map((item) =>
-                    item.id === action.payload.id
+                    item._id === action.payload._id
                         ? { ...item, quantity: item.quantity + 1 }
                         : item
                 ),
@@ -86,7 +88,7 @@ export function cartReducer(state, action) {
             return {
                 ...state,
                 cartItems: state.cartItems.map((item) =>
-                    item.id === action.payload.id
+                    item._id === action.payload._id
                         ? { ...item, quantity: item.quantity - 1 }
                         : item
                 ),
