@@ -23,7 +23,7 @@ export function Cart() {
                     <div className="cards-display-cart">
                         {cartItems.map((item) => (
                             <CartItemCard
-                                key={item.id}
+                                key={item._id}
                                 item={item}
                                 dispatchWrapper={dispatchWrapper}
                                 wishListItems={wishListItems}

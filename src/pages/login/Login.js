@@ -2,6 +2,7 @@ import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthentication } from '../../contexts';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export function Login() {
     const { loginUserWithEmailAndPassword } = useAuthentication();
@@ -11,18 +12,38 @@ export function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    async function handleLoginBtnClick() {
-        const response = await loginUserWithEmailAndPassword(email, password);
+    const [loading, setLoading] = useState(false);
 
-        if (response === true) {
-            navigate('/products');
+    async function loginUser() {
+        try {
+            setLoading(true);
+            const response = await loginUserWithEmailAndPassword(
+                email,
+                password
+            );
+
+            setLoading(false);
+            if (response === true) {
+                navigate('/products');
+            } else {
+                toast.error('email or password incorrect, try again');
+            }
+        } catch (error) {
+            setLoading(false);
+            console.log('error occoured while logging in', error);
+            toast.warning('error while loggin in, try again');
         }
     }
 
     return (
         <div className="login-container shadow-box">
-            <h3>LOGIN</h3>
+            {loading ? (
+                <div className="loading-modal">
+                    <div className="loader"></div>
+                </div>
+            ) : null}
 
+            <h3>LOGIN</h3>
             <input
                 className="form-input"
                 type="text"
@@ -38,14 +59,11 @@ export function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button
-                className="btn btn-primary submit-form"
-                onClick={handleLoginBtnClick}
-            >
+            <button className="btn btn-primary submit-form" onClick={loginUser}>
                 Login
             </button>
             <div className="form-bottom">
-                <Link to="/">Don't Have An Account? Sign Up</Link>
+                <Link to="/signup">Don't Have An Account? Sign Up</Link>
             </div>
         </div>
     );

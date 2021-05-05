@@ -32,8 +32,7 @@ export function CartItemCard({ item, dispatchWrapper, wishListItems }) {
                     style={{
                         backgroundColor:
                             wishListItems.find(
-                                (wishListItem) =>
-                                    wishListItem.productId === item.productId
+                                (wishListItem) => wishListItem._id === item._id
                             ) !== undefined
                                 ? 'red'
                                 : '#fff',
@@ -45,8 +44,7 @@ export function CartItemCard({ item, dispatchWrapper, wishListItems }) {
                             color:
                                 wishListItems.find(
                                     (wishListItem) =>
-                                        wishListItem.productId ===
-                                        item.productId
+                                        wishListItem._id === item._id
                                 ) !== undefined
                                     ? '#fff'
                                     : 'red',

@@ -4,6 +4,7 @@ import { Products } from './pages/Products';
 import { Cart } from './pages/Cart';
 import { WishList } from './pages/WishList';
 import { Login } from './pages/login';
+import { SignUp } from './pages/SignUp';
 import { NavBar } from './components/NavBar';
 
 import { useAuthentication } from './contexts';
@@ -28,7 +29,7 @@ function PrivateRoute({ path, ...props }) {
 function App() {
     return (
         <div className="App">
-            <ToastContainer />
+            <ToastContainer hideProgressBar={true} />
             <NavBar />
 
             <div className="page-container">
@@ -38,6 +39,7 @@ function App() {
                     <PrivateRoute path="/cart" element={<Cart />} />
                     <PrivateRoute path="/wishlist" element={<WishList />} />
                     <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<SignUp />} />
                 </Routes>
             </div>
         </div>

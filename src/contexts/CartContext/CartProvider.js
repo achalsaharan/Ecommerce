@@ -38,12 +38,16 @@ export function CartProvider({ children }) {
     useEffect(() => {
         if (cartId) {
             dispatchWrapper({ type: 'GET_CART' });
+        } else {
+            dispatch({ type: 'SET_CART', payload: [] });
         }
     }, [cartId]); //eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         if (wishListId) {
             dispatchWrapper({ type: 'GET_WISHLIST' });
+        } else {
+            dispatch({ type: 'SET_WISHLIST', payload: [] });
         }
     }, [wishListId]); //eslint-disable-line react-hooks/exhaustive-deps
 

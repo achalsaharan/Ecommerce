@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { isPresentInArray } from './arrayUtils';
-const API = 'http://localhost:3999';
+const API = 'https://afternoon-scrubland-43673.herokuapp.com';
 
 export const ActionTypes = {
     SET_PRODUCTS: 'SET_PRODUCTS',

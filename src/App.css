@@ -120,6 +120,30 @@ hr {
     z-index: 2;
 }
 
+.loading-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    z-index: 3;
+    background: rgba(187, 187, 187, 0.5);
+    position: fixed;
+    top: 0;
+}
+
+.form-field-validation-error {
+    width: 100%;
+    font-size: smaller;
+    font-weight: 300;
+    margin-top: 0.3rem;
+    color: red;
+}
+
+.form-field-validation-error > i {
+    margin-right: 0.3rem;
+}
+
 @media only screen and (max-width: 500px) {
     .cards-display {
         grid-template-columns: 1fr;

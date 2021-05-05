@@ -1,19 +1,28 @@
 import { useState } from 'react';
-import { useCart } from '../../contexts';
-import { Link } from 'react-router-dom';
+import { useCart, useAuthentication } from '../../contexts';
+import { Link, useNavigate } from 'react-router-dom';
+
 import './NavBar.css';
+
 export function NavBar({ setRoute }) {
     const {
         state: { cartItems, wishListItems },
         dispatchWrapper,
     } = useCart();
 
+    const {
+        state: { userId },
+        logoutUser,
+    } = useAuthentication();
+
+    const navigate = useNavigate();
+
     const [search, setSearch] = useState('');
 
     function handleSearchSubmit() {
         //TODO
-        setRoute('products');
         dispatchWrapper({ type: 'SET_SEARCH_PRODUCT', payload: search });
+        navigate('/products');
         // setSearch('');
     }
 
@@ -69,9 +78,17 @@ export function NavBar({ setRoute }) {
                     </Link>
                 </button>
 
-                <button>
+                {userId ? (
+                    <button onClick={() => logoutUser(userId)}>Logout</button>
+                ) : (
+                    <button>
+                        <Link to="/login">Login</Link>
+                    </button>
+                )}
+
+                {/* <button>
                     <Link to="/login">Login</Link>
-                </button>
+                </button> */}
             </div>
         </>
     );
