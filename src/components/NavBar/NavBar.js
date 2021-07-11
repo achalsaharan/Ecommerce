@@ -30,7 +30,7 @@ export function NavBar({ setRoute }) {
         <>
             <div className="header-container">
                 <div className="header">
-                    <h1>ecommerce</h1>
+                    <h1>Electro Hub</h1>
                     <div className="header-search-bar border-shadow">
                         <input
                             type="text"

@@ -27,16 +27,18 @@ export function ProductCard({ product, dispatchWrapper, wishListItems }) {
         }
     }
 
-    function handleAddToCartBtnClick(product) {
+    function handleBuyBtnClick(product) {
         if (userId === null) {
             console.log('navigating to login');
             return navigate('/login');
         }
 
-        dispatchWrapper({
-            type: 'ADD_TO_CART',
-            payload: product,
-        });
+        navigate(`/products/${product._id}`);
+
+        // dispatchWrapper({
+        //     type: 'ADD_TO_CART',
+        //     payload: product,
+        // });
     }
 
     return (
@@ -113,9 +115,9 @@ export function ProductCard({ product, dispatchWrapper, wishListItems }) {
             >
                 <button
                     className="btn btn-primary"
-                    onClick={() => handleAddToCartBtnClick(product)}
+                    onClick={() => handleBuyBtnClick(product)}
                 >
-                    Add To Cart
+                    Buy
                 </button>
                 {/* <button
 					className="btn btn-secondary"

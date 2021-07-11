@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { isPresentInArray } from './arrayUtils';
-const API = 'https://afternoon-scrubland-43673.herokuapp.com';
+import { API } from '../../constants';
+import { useAuthentication } from '../AuthenticationContext/AuthenticationProvider';
+import { toast } from 'react-toastify';
 
 export const ActionTypes = {
     SET_PRODUCTS: 'SET_PRODUCTS',
@@ -42,7 +44,7 @@ export function makeDispatchWrapper(
 
             case 'GET_WISHLIST': {
                 console.log('loading wishlist....');
-                const res = await axios.get(`${API}/wishlists/${wishListId}`);
+                const res = await axios.get(`${API}/wishlists/`);
 
                 if (res.status === 200) {
                     dispatch({
@@ -55,7 +57,7 @@ export function makeDispatchWrapper(
 
             case 'GET_CART': {
                 console.log('loading cart....');
-                const res = await axios.get(`${API}/carts/${cartId}`);
+                const res = await axios.get(`${API}/carts/`);
 
                 if (res.status === 200) {
                     dispatch({
@@ -70,11 +72,11 @@ export function makeDispatchWrapper(
             case 'ADD_TO_WISHLIST': {
                 //xx this check fails when we add an item two times very quickly
                 if (isPresentInArray(state.wishListItems, action.payload)) {
-                    alert('already present in arr');
+                    toast.success('already present in wish list');
                     break;
                 }
                 console.log('adding to wishlist....');
-                const res = await axios.post(`${API}/wishlists/${wishListId}`, {
+                const res = await axios.post(`${API}/wishlists/`, {
                     _id: action.payload._id,
                 });
 
@@ -103,7 +105,7 @@ export function makeDispatchWrapper(
                 //     cartItem: { ...obj, quantity: 1 },
                 // });
 
-                const res = await axios.post(`${API}/carts/${cartId}`, {
+                const res = await axios.post(`${API}/carts/`, {
                     _id: action.payload._id,
                     quantity: 1,
                 });
@@ -121,14 +123,11 @@ export function makeDispatchWrapper(
             }
 
             case 'REMOVE_FROM_WISHLIST': {
-                const res = await axios.delete(
-                    `${API}/wishlists/${wishListId}`,
-                    {
-                        data: {
-                            _id: action.payload._id,
-                        },
-                    }
-                );
+                const res = await axios.delete(`${API}/wishlists/`, {
+                    data: {
+                        _id: action.payload._id,
+                    },
+                });
 
                 if (res.status === 201) {
                     dispatch({
@@ -143,8 +142,10 @@ export function makeDispatchWrapper(
             }
 
             case 'REMOVE_FROM_CART': {
-                const res = await axios.delete(`${API}/carts/${cartId}`, {
-                    _id: action.payload._id,
+                const res = await axios.delete(`${API}/carts/`, {
+                    data: {
+                        _id: action.payload._id,
+                    },
                 });
                 if (res.status === 204) {
                     dispatch({
@@ -157,7 +158,7 @@ export function makeDispatchWrapper(
             }
 
             case 'INCREASE_CART_ITEM_QUANTITY': {
-                const res = await axios.post(`${API}/carts/${cartId}`, {
+                const res = await axios.post(`${API}/carts/`, {
                     _id: action.payload._id,
                     quantity: action.payload.quantity + 1,
                 });
@@ -173,7 +174,7 @@ export function makeDispatchWrapper(
             }
 
             case 'DECREASE_CART_ITEM_QUANTITY': {
-                const res = await axios.post(`${API}/carts/${cartId}`, {
+                const res = await axios.post(`${API}/carts/`, {
                     _id: action.payload._id,
                     quantity: action.payload.quantity - 1,
                 });

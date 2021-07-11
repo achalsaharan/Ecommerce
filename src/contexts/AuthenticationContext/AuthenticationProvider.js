@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { createContext, useContext, useState } from 'react';
-import { useNavigate, useNavigation } from 'react-router-dom';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
-const API = 'https://afternoon-scrubland-43673.herokuapp.com';
+import { API } from '../../constants';
 
 export const AuthenticationContext = createContext();
 
@@ -16,36 +15,88 @@ export function AuthenticationProvider({ children }) {
         lastName: null,
         cartId: null,
         wishListId: null,
+        token: null,
     });
 
     const navigate = useNavigate();
 
-    async function loginUserWithEmailAndPassword(email, password) {
-        const res = await axios.post(`${API}/auth/login`, {
-            emailId: email,
-            password: password,
-        });
+    function setupAuthHeaderForServiceCalls(token) {
+        if (token) {
+            return (axios.defaults.headers.common['Authorization'] = token);
+        }
+        delete axios.defaults.headers.common['Authorization'];
+    }
 
-        console.log(res);
+    function setupAuthExceptionHandler(logoutUser, navigate) {
+        const UNAUTHORIZED = 401;
+        axios.interceptors.response.use(
+            (response) => response,
+            (error) => {
+                if (error?.response?.status === UNAUTHORIZED) {
+                    logoutUser();
+                    navigate('login');
+                }
+                return Promise.reject(error);
+            }
+        );
+    }
 
-        if (res.data.success === true) {
-            console.log('logging in...');
+    useEffect(() => {
+        const user = JSON.parse(localStorage?.getItem('user'));
+
+        if (user) {
             setState({
-                userId: res.data.user._id,
-                emailId: res.data.user.email,
-                firstName: res.data.user.firstName,
-                lastName: res.data.user.lastName,
-                cartId: res.data.user.cart,
-                wishListId: res.data.user.wishList,
+                userId: user._id,
+                emailId: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                cartId: user.cart,
+                wishListId: user.wishList,
+                token: user.token,
             });
 
-            return true;
-        } else {
+            setupAuthHeaderForServiceCalls(user.token);
+        }
+        setupAuthExceptionHandler(logoutUser, navigate);
+    }, []);
+
+    async function loginUserWithEmailAndPassword(email, password) {
+        try {
+            const res = await axios.post(`${API}/auth/login`, {
+                emailId: email,
+                password: password,
+            });
+
+            console.log(res);
+
+            if (res.data.success === true) {
+                console.log('logging in...');
+                setState({
+                    userId: res.data.user._id,
+                    emailId: res.data.user.email,
+                    firstName: res.data.user.firstName,
+                    lastName: res.data.user.lastName,
+                    cartId: res.data.user.cart,
+                    wishListId: res.data.user.wishList,
+                    token: res.data.token,
+                });
+
+                setupAuthHeaderForServiceCalls(res.data.token);
+
+                //saving user details and token in localstorage
+                const token = res.data.token;
+                const user = { ...res.data.user, token };
+
+                localStorage?.setItem('user', JSON.stringify(user));
+
+                return true;
+            }
+        } catch (error) {
             return false;
         }
     }
 
-    async function logoutUser(userId) {
+    async function logoutUser() {
         setState({
             userId: null,
             emailId: null,
@@ -53,7 +104,12 @@ export function AuthenticationProvider({ children }) {
             lastName: null,
             cartId: null,
             wishListId: null,
+            token: null,
         });
+
+        localStorage?.clear();
+
+        setupAuthHeaderForServiceCalls();
 
         navigate('/products');
     }

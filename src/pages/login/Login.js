@@ -1,18 +1,24 @@
 import './Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthentication } from '../../contexts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 export function Login() {
-    const { loginUserWithEmailAndPassword } = useAuthentication();
+    const { loginUserWithEmailAndPassword, state } = useAuthentication();
+    const { userId } = state;
 
     const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (userId) {
+            navigate('/products');
+        }
+    }, [userId]);
 
     async function loginUser() {
         try {
