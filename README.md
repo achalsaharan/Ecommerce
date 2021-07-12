@@ -2,7 +2,7 @@
 - Front End: React
 - Beack End: Express
 - Database: Mongoose + MongoDB
-- Styling: [pixel UI](https://www.pixelui.netlify.app) (my own component library) and CSS
+- Styling: [pixel UI](https://pixelui.netlify.app) (my own component library) and CSS
 
 ---
 
