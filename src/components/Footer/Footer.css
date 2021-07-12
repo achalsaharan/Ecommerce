@@ -1,0 +1,13 @@
+.footer-container {
+    max-width: var(--max-width);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    background-color: #eaeaec;
+}
+
+.footer-container > p > a {
+    padding: 0rem 0.5rem;
+}

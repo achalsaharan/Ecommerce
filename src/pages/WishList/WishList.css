@@ -1,0 +1,13 @@
+.page-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    color: var(--gray-light);
+    min-height: 50vh;
+}
+
+.page-empty > h3 {
+    color: inherit;
+}

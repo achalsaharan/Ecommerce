@@ -1,38 +1,157 @@
-.App {
-  text-align: center;
+@import 'https://pixelui.netlify.app/styles/styles.css';
+
+:root {
+    --max-width: 1000px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.page-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 1rem;
+    margin-top: 1rem;
+    min-height: 85vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.cards-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 2rem;
+    margin-top: 1rem;
+    justify-content: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.out-of-stock {
+    position: absolute;
+    background-color: #fff;
+    opacity: 0.5;
+    font-size: 2rem;
+    width: 100%;
+    height: 60%;
+    text-align: center;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
 }
 
-.App-link {
-  color: #61dafb;
+.icon-badge {
+    position: absolute;
+    display: flex;
+    height: 18px;
+    width: 18px;
+    background-color: red;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    top: -1rem;
+    left: 1.7rem;
+    color: #fff;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.card {
+    max-width: 350px;
+}
+
+.border-shadow {
+    box-shadow: 0px 0px 10px 4px rgb(0 0 0 / 5%);
+}
+
+.padding1 {
+    padding: 0.5rem;
+}
+
+.flex-space-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.margin-bottom-1 {
+    margin-bottom: 1rem;
+}
+
+.divider {
+    border: 0.1px solid black;
+    height: 0rem;
+    width: 100%;
+}
+
+hr {
+    margin: 0rem 0rem;
+}
+
+.hr-dashed {
+    border-top: 1px dashed;
+}
+
+.image-container {
+    position: relative;
+}
+
+.like-product-btn {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 1rem;
+    top: 1rem;
+    background: none;
+    border: none;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    background-color: #fff;
+    outline: none;
+    transition-duration: 0.1s;
+    z-index: 2;
+}
+
+.like-product-btn > i {
+    color: red;
+}
+
+.like-product-btn:hover {
+    font-size: 1.2rem;
+}
+
+.product-rating {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 2;
+}
+
+.loading-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    z-index: 3;
+    background: rgba(187, 187, 187, 0.5);
+    position: fixed;
+    top: 0;
+}
+
+.form-field-validation-error {
+    width: 100%;
+    font-size: smaller;
+    font-weight: 300;
+    margin-top: 0.3rem;
+    color: red;
+}
+
+.form-field-validation-error > i {
+    margin-right: 0.3rem;
+}
+
+@media only screen and (max-width: 500px) {
+    .cards-display {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+
+    .out-of-stock {
+        height: 63%;
+    }
 }

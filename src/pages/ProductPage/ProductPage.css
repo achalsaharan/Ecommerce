@@ -1,0 +1,35 @@
+.product-preview-container {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+}
+
+.product-preview-container > div > h5 {
+    margin-top: 0;
+}
+
+.product-info {
+    margin: 0rem 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.additional-info > p > i {
+    margin-right: 0.5rem;
+}
+
+.buttons-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.5rem;
+}
+
+.rating {
+    display: inline;
+    margin-left: 1rem;
+}
+
+@media only screen and (max-width: 500px) {
+    .product-preview-container {
+        grid-template-columns: 1fr;
+    }
+}
